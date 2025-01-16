@@ -1,6 +1,8 @@
 package six
 
 import (
+	"fmt"
+	"golang.org/x/exp/constraints"
 	"strconv"
 	"strings"
 	"unicode"
@@ -15,6 +17,10 @@ func Str(s string) XStr {
 
 func Strings(ss ...string) XStr {
 	return XStr(strings.Join(ss, ""))
+}
+
+func StrX[T constraints.Ordered](v T) XStr {
+	return XStr(fmt.Sprint(v))
 }
 
 func (s XStr) Len() int {
