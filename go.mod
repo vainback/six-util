@@ -1,4 +1,4 @@
-module github.com/vainback/six-util
+module github.com/vainback/six-util/v2
 
 go 1.23.4
 
