@@ -11,6 +11,10 @@ func ArrayAny[T any](arr []T) XArrayAny[T] {
 	return arr
 }
 
+func ArrayAnys[T any](arr ...T) XArrayAny[T] {
+	return arr
+}
+
 func (a XArrayAny[T]) Len() int {
 	return len(a)
 }

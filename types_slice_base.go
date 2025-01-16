@@ -9,6 +9,13 @@ import (
 
 type XArray[T constraints.Ordered] []T
 
+func Array[T constraints.Ordered](a []T) XArray[T] {
+	return a
+}
+func Arrays[T constraints.Ordered](a ...T) XArray[T] {
+	return a
+}
+
 func (a XArray[T]) Len() int {
 	return len(a)
 }
