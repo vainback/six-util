@@ -94,6 +94,119 @@ func (s XStr) FirstLower() XStr {
 	return XStr(runes)
 }
 
+func (s XStr) LastUpper() XStr {
+	if s.Len() == 0 {
+		return s
+	}
+	runes := []rune(s)
+	if unicode.IsLetter(runes[len(runes)-1]) {
+		runes[len(runes)-1] = unicode.ToUpper(runes[len(runes)-1])
+	}
+	return XStr(runes)
+}
+
+func (s XStr) LastLower() XStr {
+	if s.Len() == 0 {
+		return s
+	}
+	runes := []rune(s)
+	if unicode.IsLetter(runes[len(runes)-1]) {
+		runes[len(runes)-1] = unicode.ToLower(runes[len(runes)-1])
+	}
+	return XStr(runes)
+}
+
+func (s XStr) Upper() XStr {
+	if s.Len() == 0 {
+		return s
+	}
+	runes := []rune(s)
+	for i := len(runes) - 1; i > 0; i-- {
+		if unicode.IsLetter(runes[i]) {
+			runes[i] = unicode.ToUpper(runes[i])
+		}
+	}
+	return XStr(runes)
+}
+
+func (s XStr) Lower() XStr {
+	if s.Len() == 0 {
+		return s
+	}
+	runes := []rune(s)
+	for i := len(runes) - 1; i > 0; i-- {
+		if unicode.IsLetter(runes[i]) {
+			runes[i] = unicode.ToLower(runes[i])
+		}
+	}
+	return XStr(runes)
+}
+
+// Camel2Snake 驼峰转蛇形
+func (s XStr) Camel2Snake() string {
+	runes := []rune(s.RemoveSpace())
+	var ns strings.Builder
+	for _, r := range runes {
+		if unicode.IsUpper(r) {
+			ns.WriteString("_")
+		}
+		ns.WriteRune(unicode.ToLower(r))
+	}
+	return XStr(ns.String()).Trim("_", TrimLeft)
+}
+
+func (s XStr) Snake2BigCamel() string {
+	runes := []rune(s.RemoveSpace())
+
+	if len(runes) == 0 {
+		return ""
+	}
+
+	if len(runes) == 1 {
+		return string(unicode.ToUpper(runes[0]))
+	}
+
+	var ns strings.Builder
+	for i := 1; i < len(runes); i++ {
+		if runes[i] == '_' {
+			continue
+		}
+
+		if runes[i-1] == '_' {
+			ns.WriteRune(unicode.ToUpper(runes[i]))
+		} else {
+			ns.WriteRune(unicode.ToLower(runes[i]))
+		}
+	}
+	return XStr(ns.String()).FirstUpper().String()
+}
+
+func (s XStr) Snake2LittleCamel() string {
+	runes := []rune(s.RemoveSpace())
+
+	if len(runes) == 0 {
+		return ""
+	}
+
+	if len(runes) == 1 {
+		return string(unicode.ToLower(runes[0]))
+	}
+
+	var ns strings.Builder
+	for i := 1; i < len(runes); i++ {
+		if runes[i] == '_' {
+			continue
+		}
+
+		if runes[i-1] == '_' {
+			ns.WriteRune(unicode.ToUpper(runes[i]))
+		} else {
+			ns.WriteRune(unicode.ToLower(runes[i]))
+		}
+	}
+	return XStr(ns.String()).FirstLower().String()
+}
+
 // Append 追加多个字符串到s尾部
 func (s XStr) Append(ss ...string) XStr {
 	if len(ss) == 0 {
@@ -140,4 +253,12 @@ func (s XStr) Trim(cutest string, direction ...TrimType) string {
 
 func (s XStr) TrimSpace() string {
 	return strings.TrimSpace(string(s))
+}
+
+func (s XStr) ReplaceAll(old, new string) string {
+	return strings.ReplaceAll(string(s), old, new)
+}
+
+func (s XStr) RemoveSpace() string {
+	return s.ReplaceAll(" ", "")
 }
