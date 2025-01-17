@@ -167,6 +167,9 @@ func (s XStr) Snake2BigCamel() string {
 	}
 
 	var ns strings.Builder
+	if runes[0] != '_' {
+		ns.WriteRune(runes[0])
+	}
 	for i := 1; i < len(runes); i++ {
 		if runes[i] == '_' {
 			continue
@@ -193,6 +196,9 @@ func (s XStr) Snake2LittleCamel() string {
 	}
 
 	var ns strings.Builder
+	if runes[0] != '_' {
+		ns.WriteRune(runes[0])
+	}
 	for i := 1; i < len(runes); i++ {
 		if runes[i] == '_' {
 			continue
